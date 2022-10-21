@@ -37,3 +37,16 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: Deploy
+  displayName: Deploy to webapp
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    steps: 
+    - task: AzureWebAppContainer@1
+      inputs:
+        azureSubscription: 'Azure subscription 1(39b7fa62-b79d-46c6-b048-04c14e43a54f)'
+        appName: 'joyazure'
+        containers: $(containerRegistry)/$(imageRepository):$(tag)
